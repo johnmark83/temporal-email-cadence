@@ -3,7 +3,11 @@
 
 A monorepo application for building and running email cadences using **Temporal.io** and **TypeScript**.
 
-# 📦 Installation
+# 📦 Installation and Requirements
+**Node.js version ">=20.9.0" for Next.js**
+
+Install Temporal CLI from this website
+https://docs.temporal.io/develop/typescript/set-up-your-local-typescript
 
 Install all dependencies:
 
@@ -157,3 +161,50 @@ POST /enrollments
   "contactEmail": "test@example.com"
 }
 ```
+
+---
+
+## Get Enrollment Status
+
+```
+GET /enrollments/enrollment-nak0uu30d4
+```
+
+---
+
+## Update cadence of active workflow
+
+```
+POST /enrollments/enrollment-nak0uu30d4/update-cadence
+```
+
+```json
+{
+  "steps": [
+    {
+      "id": "1",
+      "type": "SEND_EMAIL",
+      "subject": "Welcome",
+      "body": "Hello there"
+    },
+    {
+      "id": "2",
+      "type": "WAIT",
+      "seconds": 10
+    },
+    {
+      "id": "3",
+      "type": "WAIT",
+      "seconds": 100
+    },
+    {
+      "id": "4",
+      "type": "SEND_EMAIL",
+      "subject": "Follow up",
+      "body": "Checking in"
+    }
+  ]
+}
+```
+
+
