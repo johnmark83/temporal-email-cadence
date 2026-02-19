@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"resolveJsonModule": true,
+		"paths": {
+			"@api/*": ["apps/api/src/*"],
+			"@worker/*": ["apps/worker/src/*"],
+			"@web/*": ["apps/web/src/*"]
+		}
+	},
+	"exclude": ["node_modules", "dist"]
+}

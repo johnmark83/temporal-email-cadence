@@ -1,0 +1,25 @@
+{
+	"name": "worker",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build": "tsc --build",
+		"build.watch": "tsc --build --watch",
+		"format": "prettier --write .",
+		"format:check": "prettier --check .",
+		"lint": "eslint .",
+		"start": "ts-node src/worker.ts",
+		"start.watch": "nodemon src/worker.ts",
+		"workflow": "ts-node src/client.ts",
+		"dev": "concurrently \"temporal server start-dev\" \"ts-node src/worker.ts\""
+	},
+	"nodemonConfig": {
+		"execMap": {
+			"ts": "ts-node"
+		},
+		"ext": "ts",
+		"watch": [
+			"src"
+		]
+	}
+}
