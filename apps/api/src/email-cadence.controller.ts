@@ -9,7 +9,6 @@ export class EmailCadenceController {
 	//Cadences
 	@Get('cadences/:id')
 	getCadences(@Param() param?: { id: string }): Cadence[] {
-		console.log('Received request to get cadences with id:', param?.id);
 		return this.emailCadenceService.getCadences(param?.id);
 	}
 

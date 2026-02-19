@@ -291,6 +291,34 @@ export default function Home() {
 							overflow: 'auto',
 							resize: 'none',
 						}}
+						defaultValue={JSON.stringify(
+							{
+								steps: [
+									{
+										id: "1",
+										type: "SEND_EMAIL",
+										subject: "Welcome",
+										body: "Hello there"
+									},
+									{
+										id: "2",
+										type: "WAIT",
+										seconds: 10
+									},
+									{
+										id: "3",
+										type: "WAIT",
+										seconds: 100
+									},
+									{
+										id: "4",
+										type: "SEND_EMAIL",
+										subject: "Follow up",
+										body: "Checking in"
+									}
+								]
+							}, null, 2
+						)}	
 					/>
 					<button onClick={handleUpdateEnrollment} style={{ marginTop: '8px' }} disabled={updateEnrollmentLoading}>
 						Update Enrollment

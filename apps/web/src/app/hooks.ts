@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createCadence, getCadences, updateCadence, getEnrollments, updateEnrollmentCadence, startEnrollment } from './api';
 
-export function useCadences(id?: string) {
+export function useCadences() {
 	const [cadences, setCadences] = useState<any[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export function useCadences(id?: string) {
 			setCadences(result);
 		} catch (err: any) {
 			if (err.name !== 'AbortError') {
-				setError(err);
+				setError(err.message || 'An error occurred while fetching cadences');
 			}
 		} finally {
 			setLoading(false);
@@ -40,7 +40,7 @@ export function useCreateCadence() {
 			setSuccess(true);
 			return result;
 		} catch (err: any) {
-			setError(err);
+			setError(err.message || 'An error occurred while creating cadence');
 		} finally {
 			setLoading(false);
 		}
@@ -64,7 +64,7 @@ export function useUpdateCadence() {
 			setSuccess(true);
 			return result;
 		} catch (err: any) {
-			setError(err);
+			setError(err.message || 'An error occurred while updating cadence');
 		} finally {
 			setLoading(false);
 		}
@@ -94,7 +94,7 @@ export function useEnrollments() {
 			setEnrollmentState(result);
 		} catch (err: any) {
 			if (err.name !== 'AbortError') {
-				setError(err);
+				setError(err.message || 'An error occurred while fetching enrollments');
 			}
 		} finally {
 			setLoading(false);
@@ -119,7 +119,7 @@ export function useUpdateEnrollmentCadence() {
 			setSuccess(true);
 			return result;
 		} catch (err: any) {
-			setError(err);
+			setError(err.message || 'An error occurred');
 		} finally {
 			setLoading(false);
 		}
@@ -145,7 +145,7 @@ export function useStartEnrollment() {
 			setResultMessage(JSON.stringify(res));
 			return res.message;
 		} catch (err: any) {
-			setError(err);
+			setError(err.message || 'An error occurred while starting enrollment');
 		} finally {
 			setLoading(false);
 		}

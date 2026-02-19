@@ -7,10 +7,7 @@ import { getTemporalClient } from './tempora';
 @Injectable()
 export class EmailCadenceService {
 	getCadences(id?: string): Cadence[] {
-		console.log(`Cadence ID requested: ${id}`);
-
 		let cadences = cadenceDb as any[];
-		console.log(`Total cadences found: ${cadences.length}`);
 		if (id) {
 			cadences = cadences.filter(c => c.id === id) || [];
 		}
@@ -19,8 +16,6 @@ export class EmailCadenceService {
 	}
 
 	createCadence(input: Cadence): Cadence {
-		console.log('Creating a new cadence with input:', input);
-
 		try {
 			cadenceDb.push(input);
 			return input;
@@ -31,8 +26,6 @@ export class EmailCadenceService {
 	}
 
 	updateCadence(id: string, input: Partial<Cadence>): Cadence {
-		console.log(`Updating cadence with ID ${id} using input:`, input);
-
 		try {
 			const index = cadenceDb.findIndex(c => c.id === id);
 			if (index === -1) {
@@ -58,7 +51,8 @@ export class EmailCadenceService {
 	async updateEnrollmentCadence(input: Step[], id: string) {
 		const client = await getTemporalClient();
 		const handle = client.workflow.getHandle(id);
-		const [status] = await Promise.all([handle.query('getState') as Promise<EnrollmentState>, handle.signal('updateCadence', input)]);
+		const status = await handle.query('getState') as EnrollmentState;
+		await handle.signal('updateCadence', input);
 
 		this.updateCadence(status.cadenceId, { steps: input });
 	}
@@ -71,8 +65,6 @@ export class EmailCadenceService {
 				throw new Error(`Cadence with ID ${input.cadenceId} not found`);
 			}
 			const workflowId = `enrollment-${Math.random().toString(36).substring(2, 15)}`;
-			console.log(`
-      Starting cadence id ${workflowId}`);
 			const client = await getTemporalClient();
 			const handle = await client.workflow.start('enrollmentWorkflow', {
 				args: [cadence, input.contactEmail],

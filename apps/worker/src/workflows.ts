@@ -31,7 +31,7 @@ const { sendEmail, wait } = proxyActivities<typeof activities>({
 });
 
 //Create worker to run enrollment workflow
-export const updateCadenceSignal = defineSignal<[Step[]]>('updateCadence');
+export const updateCadenceSignal = defineSignal<[{steps: Step[]}]>('updateCadence');
 export const getState = defineQuery<EnrollmentState>('getState');
 
 export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string): Promise<void> {
@@ -40,7 +40,8 @@ export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string)
 	let steps = [...cadence.steps];
 	let status = 'ACTIVE';
 
-	setHandler(updateCadenceSignal, (updatedSteps: Step[]) => {
+	setHandler(updateCadenceSignal, (input: {steps: Step[]}) => {
+		const updatedSteps = input.steps;
 		if (updatedSteps.length <= steps.length) {
 			status = 'COMPLETED';
 		}
@@ -58,7 +59,7 @@ export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string)
 		};
 	});
 
-	while (currentStepIndex < steps.length) {
+	while (currentStepIndex <= steps.length - 1) {
 		const step = steps[currentStepIndex];
 
 		if (step.type === 'SEND_EMAIL') {
@@ -67,10 +68,11 @@ export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string)
 			await wait(step.seconds);
 		}
 
-		if (currentStepIndex >= steps.length) {
+		if (currentStepIndex < steps.length - 1) {
+			currentStepIndex++;
+		} else {
 			break;
 		}
-		currentStepIndex++;
 	}
 
 	status = 'COMPLETED';

@@ -6,12 +6,10 @@
 		"apps/*"
 	],
 	"scripts": {
-		"open:web": "wait-on http://localhost:3000 && open http://localhost:3000",
-		"open:temporal-ui": "wait-on http://localhost:8233 && open http://localhost:8233",
 		"dev:api": "npm --workspace=api run dev",
-		"dev:web": "concurrently \"npm --workspace=web run dev\" \"npm run open:web\"",
-		"dev:worker": "concurrently \"npm --workspace=worker run dev\" \"npm run open:temporal-ui\"",
-		"dev": "concurrently \"npm run dev:api\" \"npm run dev:worker\" \"npm run open:web\""
+		"dev:web": "concurrently \"npm --workspace=web run dev\"",
+		"dev:worker": "concurrently \"npm --workspace=worker run dev\"",
+		"dev": "concurrently \"npm run dev:api\" \"npm run dev:worker\" \"npm run dev:web\""
 	},
 	"dependencies": {
 		"@nestjs/common": "^11.0.1",
