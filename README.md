@@ -1,40 +1,159 @@
-# temporal-email-cadence
-monorepo to create an email cadence using Temporal.io with Typescript
 
-## Installation
-```
+# 📧 temporal-email-cadence
+
+A monorepo application for building and running email cadences using **Temporal.io** and **TypeScript**.
+
+# 📦 Installation
+
+Install all dependencies:
+
+```bash
 npm install --legacy-peer-deps
-```
+````
 
-## Commands for each workspace to run
-Frontend
-```
+---
+
+# 🚀 Running the Application
+
+## Run Individual Workspaces
+
+### 🌐 Frontend
+
+```bash
 npm run dev:web
 ```
-API 
-```
+
+### 🔌 API
+
+```bash
 npm run dev:api
 ```
-Temporal Server and Worker
-```
+
+### ⚙️ Temporal Worker
+
+```bash
 npm run dev:worker
 ```
 
-Run All of the workspaces 
-```
+---
+
+## ▶️ Run Everything
+
+To start all services together:
+
+```bash
 npm run dev
 ```
 
-optional .env file to update temporal.io 
-```
+---
+
+# ⚙️ Environment Variables (Optional)
+
+Create a `.env` file in the root directory if you need to customize Temporal settings:
+
+```env
 TEMPORAL_ADDRESS=localhost:7233
 TASK_QUEUE=my-task-queue
 NAMESPACE=default
 ```
 
+---
 
-localhost urls to check functionality
+# 🌍 Local URLs
+
+After starting the services, you can access:
+
+* **Frontend:** [http://localhost:3000](http://localhost:3000)
+* **Temporal UI:** [http://localhost:8233](http://localhost:8233)
+
+---
+
+# 📡 Sample API Endpoints
+
+## Get a Cadence
+
 ```
-frontend - localhost:3000
-temporal UI - localhost:8233
+GET /cadences/cad_12345
+```
+
+---
+
+## Create a Cadence
+
+```
+POST /cadences
+```
+
+```json
+{
+  "id": "cad_57545",
+  "name": "Welcome Flow",
+  "steps": [
+    {
+      "id": "1",
+      "type": "SEND_EMAIL",
+      "subject": "Welcome",
+      "body": "Hello there"
+    },
+    {
+      "id": "2",
+      "type": "WAIT",
+      "seconds": 10
+    },
+    {
+      "id": "3",
+      "type": "SEND_EMAIL",
+      "subject": "Follow up",
+      "body": "Checking in"
+    }
+  ]
+}
+```
+
+---
+
+## Update a Cadence
+
+```
+PUT /cadences/cad_12345
+```
+
+```json
+{
+  "name": "Welcome Flow version 2",
+  "steps": [
+    {
+      "id": "1",
+      "type": "SEND_EMAIL",
+      "subject": "Welcome",
+      "body": "Hello there"
+    },
+    {
+      "id": "2",
+      "type": "WAIT",
+      "seconds": 10
+    },
+    {
+      "id": "3",
+      "type": "SEND_EMAIL",
+      "subject": "Follow up",
+      "body": "Checking in"
+    }
+  ]
+}
+```
+
+---
+
+## Enroll a Contact into a Cadence
+
+```
+POST /enrollments
+```
+
+```json
+{
+  "cadenceId": "cad_12345",
+  "contactEmail": "test@example.com"
+}
 ```
