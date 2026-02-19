@@ -42,7 +42,7 @@ export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string)
 
 	setHandler(updateCadenceSignal, (input: {steps: Step[]}) => {
 		const updatedSteps = input.steps;
-		if (updatedSteps.length <= steps.length) {
+		if (updatedSteps.length - 1 <= currentStepIndex) {
 			status = 'COMPLETED';
 		}
 
