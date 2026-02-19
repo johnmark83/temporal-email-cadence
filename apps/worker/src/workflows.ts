@@ -63,7 +63,7 @@ export async function enrollmentWorkflow(cadence: Cadence, contactEmail: string)
 		const step = steps[currentStepIndex];
 
 		if (step.type === 'SEND_EMAIL') {
-			await sendEmail(step.subject, step.body, contactEmail);
+			await sendEmail(contactEmail, step.subject, step.body);
 		} else if (step.type === 'WAIT') {
 			await wait(step.seconds);
 		}
